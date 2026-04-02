@@ -127,3 +127,36 @@ evalua_df <- data.frame(ruta = files_puntos, stringsAsFactors = FALSE) %>%
   arrange(Apellidos)
 ```
 
+
+# Comprobaciones
+
+En este apartado comprobamos la calidad de las entregas, analizando posibles errores en los ficheros y verificando si todos los alumnos han entregado correctamente tanto la puntuación como el justificante.
+
+```{r}
+# Variantes del nombre de fichero
+variantes <- evalua_df %>% 
+  count(NomFile, name = "n_entregas")
+print(variantes)
+
+# Errores (sin puntuación válida)
+errores <- evalua_df %>%
+  summarise(
+    total       = n(),                  # total de entregas
+    con_puntos  = sum(!is.na(puntos)),  # correctas
+    sin_puntos  = sum(is.na(puntos))    # con errores
+  )
+print(errores)
+
+# Alumnos sin justificante PDF
+usuarios_puntos <- dirname(files_puntos) %>% basename()
+
+usuarios_justificante <- dirname(files_justificante) %>% basename()
+
+sin_justificante <- setdiff(usuarios_puntos, usuarios_justificante)
+
+cat("Alumnos sin justificante PDF:", length(sin_justificante), "\n")
+if (length(sin_justificante) > 0) print(sin_justificante)
+```
+
+
+# 
