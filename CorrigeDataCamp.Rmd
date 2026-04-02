@@ -123,7 +123,7 @@ evalua_df <- data.frame(ruta = files_puntos, stringsAsFactors = FALSE) %>%
     key_join = paste(normaliza(Apellidos), normaliza(Nombre))
   ) %>%
   
-  select(Apellidos, puntos, NomFile, Puntos, Nombre, key_join) %>%
+  select(Apellidos, puntos, NomFile, Puntos, key_join) %>%
   arrange(Apellidos)
 ```
 
@@ -174,7 +174,7 @@ Guardamos el data frame con la información de las entregas en un fichero excel 
 
 ```{r}
 write_xlsx(
-  evalua_df %>% select(-key_join, -Nombre),   # eliminamos columnas auxiliares
+  evalua_df %>% select(-key_join),   # eliminamos columna auxiliar
   "NotasRIntermedio.xlsx"
 )
 ```
