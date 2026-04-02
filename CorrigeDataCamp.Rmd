@@ -37,3 +37,49 @@ library(writexl)
 library(dplyr)
 ```
 
+
+# Lectura de los datos
+
+Descomprimimos el archivo .zip
+
+```{r}
+unzip("entregas.zip", exdir = "entregas")
+```
+
+
+Localización de los ficheros de puntuación y justificación
+```{r}
+files_puntos <- list.files("entregas",
+                           pattern = "puntos.*\\.txt$",
+                           recursive = TRUE,
+                           full.names = TRUE)
+
+files_justificante <- list.files("entregas",
+                                 pattern = "\\.pdf$",
+                                 recursive = TRUE,
+                                 full.names = TRUE)
+
+cat("Ficheros de puntos encontrados:", length(files_puntos), "\n")
+cat("Justificantes encontrados:", length(files_justificante), "\n")
+```
+
+
+# Función normalizar
+
+Utilizamos esta función para unificar el formato de los nombres y apellidos, convirtiendo el texto a minúsculas y eliminando espacios y acentos.
+
+```{r}
+normaliza <- function(x) {
+  x %>%
+    str_trim() %>%                 # elimina espacios en blanco al inicio y final
+    str_to_lower() %>%             # convierte el texto a minúsculas
+    str_replace_all("á", "a") %>%
+    str_replace_all("é", "e") %>%
+    str_replace_all("í", "i") %>%
+    str_replace_all("ó", "o") %>%
+    str_replace_all("ú", "u") %>%
+    str_replace_all("ü", "u") %>%
+    str_replace_all("ñ", "n")
+}
+```
+
