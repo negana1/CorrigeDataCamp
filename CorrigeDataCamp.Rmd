@@ -179,3 +179,47 @@ write_xlsx(
 )
 ```
 
+
+# Carga de alumnos matriculados y combinación de datos
+
+Cargamos el fichero de alumnos matriculados y generamos la misma clave auxiliar utilizada anteriormente, y poder relacionar ambos data frames.
+
+```{r}
+alumnos <- read_excel("AlumnosTD25_26.xlsx") %>%
+  mutate(
+    key_join = paste(normaliza(`Apellido(s)`), normaliza(Nombre))
+  )
+```
+
+
+A continuación, combinamos la información de los alumnos con las entregas mediante un `left_join`, de manera que se mantienen todos los alumnos y se añaden los datos de las entregas.
+
+```{r}
+final_df <- alumnos %>%
+  left_join(
+    evalua_df %>% select(-Apellidos, -Nombre),
+    by = "key_join"
+  ) %>%
+  mutate(
+    EntregaOK = ifelse(is.na(EntregaOK), 0, EntregaOK)
+  ) %>%
+  select(-key_join) %>%
+  arrange(`Apellido(s)`)
+```
+
+# Guardamos el resultado final
+
+Guardamos el resultado final en un fichero Excel que contiene todos los alumnos matriculados y la información de sus entregas.
+
+Además, mostramos un pequeño resumen con el número total de alumnos procesados, así como cuántos han realizado la entrega y cuántos no.
+
+```{r}
+write_xlsx(final_df, "AlumnosNotas.xlsx")
+
+# Resumen de resultados
+cat("Proceso completado. Alumnos procesados:", nrow(final_df), "\n")
+cat("Con entrega:", sum(final_df$EntregaOK == 1), "\n")
+cat("Sin entrega:", sum(final_df$EntregaOK == 0), "\n")
+```
+
+
