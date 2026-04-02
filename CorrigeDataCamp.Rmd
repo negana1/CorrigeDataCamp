@@ -83,3 +83,47 @@ normaliza <- function(x) {
 }
 ```
 
+
+# Creamos el data frame 'evalua_df'
+
+Construimos el data frame a partir de la información contenida en las rutas de los ficheros de entrega. 
+Obtenemos los apellidos, el nombre y la puntuación de cada alumno. Además, creamos una clave auxiliar que utilizaremos después para facilitarnos la unión con los datos de los alumnos matriculados.
+```{r}
+evalua_df <- data.frame(ruta = files_puntos, stringsAsFactors = FALSE) %>%
+  
+  mutate(
+    # Carpeta del alumno
+    carpeta_alumno = dirname(ruta) %>% basename(),
+    
+    #  Extraemos los apellidos (texto antes de la coma)
+    Apellidos = str_extract(carpeta_alumno, "^[^,]+") %>% str_trim(),
+    
+    
+    # Extraemos el nombre (texto entre la coma y el primer guión bajo)
+    Nombre = str_extract(carpeta_alumno, "(?<=,)[^_]+") %>% str_trim(),
+    
+    
+    # Obtenemos el nombre del fichero (para detectar variantes)
+    NomFile = basename(ruta),
+    
+    # Leemos el contenido del fichero de puntos
+    Puntos = sapply(ruta, function(x) {
+      linea <- readLines(x, warn = FALSE)
+      if (length(linea) == 0) return(NA_character_)
+      linea[1]
+    }),
+    
+  ) %>%
+  
+  # Limpiamos y convertimos la puntuación a numérico
+  mutate(
+    puntos = as.numeric(str_extract(Puntos, "[0-9]+\\.?[0-9]*")),
+    
+    # Generamos la clave de unión
+    key_join = paste(normaliza(Apellidos), normaliza(Nombre))
+  ) %>%
+  
+  select(Apellidos, puntos, NomFile, Puntos, Nombre, key_join) %>%
+  arrange(Apellidos)
+```
+
