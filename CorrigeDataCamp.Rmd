@@ -96,11 +96,16 @@ evalua_df <- data.frame(ruta = files_puntos, stringsAsFactors = FALSE) %>%
     carpeta_alumno = dirname(ruta) %>% basename(),
     
     #  Extraemos los apellidos (texto antes de la coma)
-    Apellidos = str_extract(carpeta_alumno, "^[^,]+") %>% str_trim(),
+    Apellidos = str_split(carpeta_alumno, ",") %>%
+  sapply(function(x) str_trim(x[1])),
     
     
-    # Extraemos el nombre (texto entre la coma y el primer guión bajo)
-    Nombre = str_extract(carpeta_alumno, "(?<=,)[^_]+") %>% str_trim(),
+    # Extraemos el nombre (texto después de la coma y antes del guión bajo)
+    Nombre = str_split(carpeta_alumno, ",") %>%
+      sapply(function(x) {
+        if (length(x) < 2) return(NA_character_)   # caso: entrega mal nombrada
+        str_split(x[2], "_")[[1]][1] %>% str_trim()
+      }),
     
     
     # Obtenemos el nombre del fichero (para detectar variantes)
