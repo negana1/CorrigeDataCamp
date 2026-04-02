@@ -159,4 +159,23 @@ if (length(sin_justificante) > 0) print(sin_justificante)
 ```
 
 
-# 
+# Indicador de entrega
+
+Creamos una variable que indica si la entrega es válida o no, en función de si se ha podido obtener la puntuación correctamente.
+
+```{r}
+evalua_df <- evalua_df %>%
+  mutate(EntregaOK = ifelse(is.na(puntos), 0, 1))
+```
+
+# Guardamos el resultado intermedio
+
+Guardamos el data frame con la información de las entregas en un fichero excel '.xlsx', incluyendo únicamente las columnas solicitadas.
+
+```{r}
+write_xlsx(
+  evalua_df %>% select(-key_join, -Nombre),   # eliminamos columnas auxiliares
+  "NotasRIntermedio.xlsx"
+)
+```
+
