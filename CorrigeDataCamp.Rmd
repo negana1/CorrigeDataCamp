@@ -2,10 +2,38 @@
 title: "CorrigeDataCamp"
 author: "Nerea Galera Navarro"
 date: "Abril 2026"
-output: html_document
+
+output:
+  pdf_document:
+    toc: yes
+    toc_depth: 3
+    number_sections: yes
+  html_document:
+    echo: yes
+    number_sections: yes
+    theme: lumen
+    toc: yes
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introducción
+
+El objetivo de este ejercicio es desarrollar un programa en R que permita corregir automáticamente las entregas de una tarea de DataCamp, extrayendo la puntuación obtenida por cada alumno y combinándola con la información de los alumnos matriculados.
+
+El proceso se ha automatizado para que funcione independientemente del número de entregas.
+
+
+# Carga de librerías
+
+Cargamos las librerías necesarias para el procesamiento de datos, asumimos que estas han sido previamente instaladas en el entorno.
+
+```{r}
+library(stringr)
+library(readxl)
+library(writexl)
+library(dplyr)
 ```
 
