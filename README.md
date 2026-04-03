@@ -31,3 +31,25 @@ install.packages(c("stringr", "readxl", "writexl", "dplyr"))
 - `AlumnosTD25_26.xlsx` — listado de alumnos matriculados
 
 ---
+
+## Estructura de ficheros
+```
+CorrigeDataCamp/
+│
+├── CorrigeDataCamp.Rmd       # Script principal
+├── entregas.zip              # Entregas descargadas de Moodle
+├── AlumnosTD25_26.xlsx       # Listado de alumnos matriculados
+│
+├── entregas/                 # Carpeta generada al descomprimir
+│   ├── Apellidos, Nombre_ID_assignsubmission_file/
+│   │   ├── puntos.txt
+│   │   └── justificante.pdf
+│   └── ...                   # un directorio por cada alumno
+│
+├── NotasRIntermedio.xlsx     # Generado: puntuaciones por alumno
+└── AlumnosNotas.xlsx         # Generado: resultado final combinado
+```
+
+---
+
+
