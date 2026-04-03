@@ -98,7 +98,7 @@ evalua_df <- data.frame(ruta = files_puntos, stringsAsFactors = FALSE) %>%
     #  Extraemos los apellidos (texto antes de la coma)
     Apellidos = str_split(carpeta_alumno, ",") %>%
   sapply(function(x) {
-    if (length(x) < 1) return(NA_character_) # caso: entrega mal nombrada
+    if (length(x) < 1) return(NA_character_)  # caso: entrega mal nombrada
     str_trim(x[1])
   }),
     
