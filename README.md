@@ -52,4 +52,25 @@ CorrigeDataCamp/
 
 ---
 
+# Cómo ejecutarlo
 
+1. Clona el repositorio y abre el proyecto en RStudio:
+```bash
+git clone https://github.com/tu-usuario/CorrigeDataCamp.git
+```
+
+2. Coloca los ficheros `entregas.zip` y `AlumnosTD25_26.xlsx` en el
+   directorio raíz del proyecto.
+
+3. Abre `CorrigeDataCamp.Rmd` en RStudio y pulsa **Knit** para ejecutarlo
+   completo o ejecuta los chunks uno a uno.
+
+4. Al finalizar encontrarás en el directorio de trabajo:
+   - `NotasRIntermedio.xlsx` con las puntuaciones extraídas de las entregas
+   - `AlumnosNotas.xlsx` con todos los alumnos y sus notas combinadas
+
+---
+
+## Autor
+
+Nerea Galera Navarro — Abril 2026
