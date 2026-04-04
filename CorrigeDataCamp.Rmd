@@ -177,6 +177,17 @@ evalua_df <- evalua_df %>%
 ```
 
 
+**Análisis de los resultados:**
+
+- **¿Todos usaron el nombre `puntos.txt`?** No. Se han encontrado **10 variantes**  distintas en el nombre del fichero. La mayoría de alumnos (45) usaron el nombre 
+correcto `puntos.txt`, pero el resto utilizaron nombres como `puntos (1).txt`, `puntos (2).txt`, `puntos R.txt`, `puntos-2.txt`, `puntos1.txt`, `puntos2.txt`, `puntos_R_intermedio.txt` o `puntoss.txt`.
+
+- **¿Cuántas variantes hay?** El número de variantes es igual al número de filas del objeto. En este caso, un total de 10.
+
+- **¿Todas las entregas contienen puntos y justificante?** En cuanto al justificante, sí, todos los alumnos que entregaron el fichero  de puntos también adjuntaron el justificante PDF (`sin_justificante` está vacío). 
+Sin embargo, de las 56 entregas recibidas, **3 no contienen una puntuación válida** (EntregaOK = 0), bien porque el fichero estaba vacío o porque el contenido no era un número reconocible.
+
+
 # Guardamos el resultado intermedio
 
 Guardamos el data frame con la información de las entregas en un fichero excel '.xlsx', incluyendo únicamente las columnas solicitadas.
