@@ -47,7 +47,7 @@ unzip("entregas.zip", exdir = "entregas")
 ```
 
 
-Localización de los ficheros de puntuación y justificación
+Localización de los ficheros de puntuación y justificantes
 ```{r}
 files_puntos <- list.files("entregas",
                            pattern = "puntos.*\\.txt$",
@@ -97,11 +97,10 @@ evalua_df <- data.frame(ruta = files_puntos, stringsAsFactors = FALSE) %>%
     
     #  Extraemos los apellidos (texto antes de la coma)
     Apellidos = str_split(carpeta_alumno, ",") %>%
-  sapply(function(x) {
-    if (length(x) < 1) return(NA_character_)  # caso: entrega mal nombrada
-    str_trim(x[1])
-  }),
-    
+      sapply(function(x) {
+        if (length(x) < 1) return(NA_character_)  # caso: entrega mal nombrada
+        str_trim(x[1])
+      }),
     
     # Extraemos el nombre (texto después de la coma y antes del guión bajo)
     Nombre = str_split(carpeta_alumno, ",") %>%
@@ -109,7 +108,6 @@ evalua_df <- data.frame(ruta = files_puntos, stringsAsFactors = FALSE) %>%
         if (length(x) < 2) return(NA_character_)   # caso: entrega mal nombrada
         str_split(x[2], "_")[[1]][1] %>% str_trim()
       }),
-    
     
     # Obtenemos el nombre del fichero (para detectar variantes)
     NomFile = basename(ruta),
@@ -171,12 +169,13 @@ if (length(sin_justificante) > 0) print(sin_justificante)
 
 Creamos una variable que indica si la entrega es válida o no, en función de si se ha podido obtener la puntuación correctamente.
 
-**Nota:** 'evalua_df' contiene las cuatro columnas requeridas por el enunciado, 'key_join' y 'EntregaOK' son columnas auxiliares necesarias para el procesamiento posterior.
+**Nota:** 'evalua_df' contiene las cuatro columnas requeridas por el enunciado. Las columnas 'key_join' y 'EntregaOK' son columnas auxiliares necesarias para el procesamiento posterior.
 
 ```{r}
 evalua_df <- evalua_df %>%
   mutate(EntregaOK = ifelse(is.na(puntos), 0, 1))
 ```
+
 
 # Guardamos el resultado intermedio
 
