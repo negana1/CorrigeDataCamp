@@ -95,7 +95,7 @@ evalua_df <- data.frame(ruta = files_puntos, stringsAsFactors = FALSE) %>%
     # Carpeta del alumno
     carpeta_alumno = dirname(ruta) %>% basename(),
     
-    #  Extraemos los apellidos (texto antes de la coma)
+    # Extraemos los apellidos (texto antes de la coma)
     Apellidos = str_split(carpeta_alumno, ",") %>%
       sapply(function(x) {
         if (length(x) < 1) return(NA_character_)  # caso: entrega mal nombrada
@@ -182,7 +182,7 @@ evalua_df <- evalua_df %>%
 - **¿Todos usaron el nombre `puntos.txt`?** No. Se han encontrado **10 variantes**  distintas en el nombre del fichero. La mayoría de alumnos (45) usaron el nombre 
 correcto `puntos.txt`, pero el resto utilizaron nombres como `puntos (1).txt`, `puntos (2).txt`, `puntos R.txt`, `puntos-2.txt`, `puntos1.txt`, `puntos2.txt`, `puntos_R_intermedio.txt` o `puntoss.txt`.
 
-- **¿Cuántas variantes hay?** El número de variantes es igual al número de filas del objeto. En este caso, un total de 10.
+- **¿Cuántas variantes hay?** El número de variantes corresponde al número de filas del objeto. En este caso, un total de 10.
 
 - **¿Todas las entregas contienen puntos y justificante?** En cuanto al justificante, sí, todos los alumnos que entregaron el fichero  de puntos también adjuntaron el justificante PDF (`sin_justificante` está vacío). 
 Sin embargo, de las 56 entregas recibidas, **3 no contienen una puntuación válida** (EntregaOK = 0), bien porque el fichero estaba vacío o porque el contenido no era un número reconocible.
@@ -202,13 +202,16 @@ write_xlsx(
 
 # Carga de alumnos matriculados y combinación de datos
 
-Cargamos el fichero de alumnos matriculados y generamos la misma clave auxiliar utilizada anteriormente, y poder relacionar ambos data frames.
+Cargamos el fichero de alumnos matriculados y generamos la misma clave auxiliar utilizada anteriormente para poder relacionar ambos data frames.
+
+El fichero incluye el **Nombre de usuario** y el **Número de ID** como identificadores únicos de cada alumno, que quedan recogidos en el resultado final. La combinación se realiza mediante una clave auxiliar construida a partir del nombre y apellidos normalizados, al ser el único campo común entre las entregas de Moodle y el fichero de alumnos.
 
 ```{r}
 alumnos <- read_excel("AlumnosTD25_26.xlsx") %>%
   mutate(
     key_join = paste(normaliza(`Apellido(s)`), normaliza(Nombre))
   )
+
 ```
 
 
