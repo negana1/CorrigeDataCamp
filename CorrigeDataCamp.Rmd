@@ -131,8 +131,8 @@ evalua_df <- data.frame(ruta = files_puntos, stringsAsFactors = FALSE) %>%
     key_join = paste(normaliza(Apellidos), normaliza(Nombre))
   ) %>%
   
-  select(Apellidos, puntos, NomFile, Puntos, key_join) %>%
-  arrange(Apellidos)
+  arrange(Apellidos) %>%
+  select(Apellidos, puntos, NomFile, Puntos, key_join)
 ```
 
 
@@ -171,6 +171,8 @@ if (length(sin_justificante) > 0) print(sin_justificante)
 
 Creamos una variable que indica si la entrega es válida o no, en función de si se ha podido obtener la puntuación correctamente.
 
+**Nota:** 'evalua_df' contiene las cuatro columnas requeridas por el enunciado, 'key_join' y 'EntregaOK' son columnas auxiliares necesarias para el procesamiento posterior.
+
 ```{r}
 evalua_df <- evalua_df %>%
   mutate(EntregaOK = ifelse(is.na(puntos), 0, 1))
@@ -182,7 +184,7 @@ Guardamos el data frame con la información de las entregas en un fichero excel 
 
 ```{r}
 write_xlsx(
-  evalua_df %>% select(-key_join),   # eliminamos columna auxiliar
+  evalua_df %>% select(Apellidos, puntos, NomFile, Puntos),
   "NotasRIntermedio.xlsx"
 )
 ```
@@ -205,7 +207,7 @@ A continuación, combinamos la información de los alumnos con las entregas medi
 ```{r}
 final_df <- alumnos %>%
   left_join(
-    evalua_df %>% select(-Apellidos, -Nombre),
+    evalua_df %>% select(key_join, puntos, NomFile, Puntos, EntregaOK),
     by = "key_join"
   ) %>%
   mutate(
